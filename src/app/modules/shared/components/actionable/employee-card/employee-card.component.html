@@ -1,0 +1,58 @@
+<div class="container-fluid employee-card-wrapper">
+  <div class="row g-3" *ngIf="employeeDetails().length!==0;else noEmployeeRecord ">
+    <div class="col-sm-6" *ngFor="let employee of employeeDetails()">
+      <div class="card shadow p-2 mb-4 bg-body rounded">
+        <div class="card-body">
+          <div class="col">
+            <div class="row border-bottom border-2">
+              <div class="col-3">
+                  <img [src]="employee.avatar" class="rounded-circle employee-avatar">
+              </div>
+              <div class="col-8">
+                <p>{{employee.name}}</p>
+                <p>{{employee.designation}}</p>
+              </div>
+              <div class="col-1">
+                <i type="button" class="bi bi-trash3" data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="openDeleteModel(employee.name)"></i>
+              </div>
+            </div>
+            <div class="row border-bottom p-2 border-2">
+              <div class="col-12">
+                {{employee.companyName}}
+              </div>
+              
+            </div>
+            <div class="row pt-2">
+              <div class="col-6">
+                {{employee.contactNo}}
+              </div>
+              <div class="col-6">
+                {{employee.emailId}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  <ng-template #noEmployeeRecord>
+    <div class="alert alert-warning" role="alert">
+      {{messages.emptyRecord}}
+    </div>
+  </ng-template>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        {{messages.deleteAlert+' '+employeeToDelete}} ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{messages.closeBtn}}</button>
+        <button type="button" class="btn btn-danger" (click) = "confirmEmployeeDelete()" data-bs-dismiss="modal">{{messages.deleteBtn}}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="container-fluid">
+    <form [formGroup]="form">
+        <div class="mb-3" *ngIf="formCondition().isAdd || formCondition().isSearch">
+            <label [for]="formLabel.name" class="form-label">{{formLabel.name}}</label>
+            <input type="text" class="form-control" [id]="formLabel.name" formControlName="name">
+            <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="invalid-feedback">
+                <div *ngIf="form.get('name')?.hasError('required')">{{errorMessage.name}}</div>
+            </div>
+        </div>
+        <div class="mb-3" *ngIf="formCondition().isAdd">
+            <label [for]="formLabel.companyName" class="form-label">{{formLabel.companyName}}</label>
+            <input type="text" class="form-control" [id]="formLabel.companyName" formControlName="companyName">
+            <div *ngIf="form.get('companyName')?.invalid && form.get('companyName')?.touched" class="invalid-feedback">
+                <div *ngIf="form.get('companyName')?.hasError('required')">{{errorMessage.companyName}}</div>
+            </div>
+        </div>
+        <div class="mb-3" *ngIf="formCondition().isAdd">
+            <label [for]="formLabel.emailId" class="form-label">{{formLabel.emailId}}</label>
+            <input type="email" class="form-control" [id]="formLabel.emailId" formControlName="emailId">
+            <div *ngIf="form.get('emailId')?.invalid && form.get('emailId')?.touched" class="invalid-feedback">
+                <div *ngIf="form.get('emailId')?.hasError('required')">{{errorMessage.emailId_error_1}}</div>
+                <div *ngIf="form.get('emailId')?.hasError('email')">{{errorMessage.emailId_error_2}}</div>
+            </div>
+        </div>
+        <div class="mb-4" *ngIf="formCondition().isAdd">
+            <label [for]="formLabel.contactNo" class="form-label">{{formLabel.contactNo}}</label>
+            <input type="tel" class="form-control" [id]="formLabel.contactNo" formControlName="contactNo">
+            <div *ngIf="form.get('contactNo')?.invalid && form.get('contactNo')?.touched" class="invalid-feedback">
+                <div *ngIf="form.get('contactNo')?.hasError('required')">{{errorMessage.contactNumber_error_1}}</div>
+                <div *ngIf="form.get('contactNo')?.hasError('pattern')">{{errorMessage.contactNumber_error_2}}</div>
+            </div>
+        </div>
+        <div class="mb-3 mt-3" *ngIf="formCondition().isAdd || formCondition().isFilter">
+            <select class="form-select" aria-label="Designation" formControlName="designation">
+                <option value="" disabled selected>Select Designation</option>
+                <option *ngFor="let designation of designationList" [value]="designation.value">{{designation.value}}</option>
+            </select>
+            <div *ngIf="form.get('designation')?.invalid && form.get('designation')?.touched" class="invalid-feedback">
+                <div *ngIf="form.get('designation')?.hasError('required')">{{errorMessage.designation}}</div>
+            </div>
+        </div>
+
+        <div class="mb-2" *ngIf="formCondition().isAdd">
+            <label class="form-check-label">{{formLabel.avatar}}</label>
+        </div>
+        <div class="radio-avater-wrapper mb-3" *ngIf="formCondition().isAdd"> 
+            <div class="form-check" *ngFor="let avatar of avatarList">
+                <input class="form-check-input" type="radio" [value] = "avatar.value" formControlName="avatarImage">
+                <label class="form-check-label">
+                        <img [src]="avatar.value" class="rounded-circle radio-avatar">
+                </label>
+            </div>
+            <div *ngIf="form.get('avatarImage')?.invalid && form.get('avatarImage')?.touched" class="invalid-feedback">
+                <div *ngIf="form.get('avatarImage')?.hasError('required')">{{errorMessage.avatar}}</div>
+            </div>
+        </div>
+
+        <div class="mb-3 d-grid col-12 mx-auto">
+            <button class="btn btn-success" [disabled]="!form.valid" type="submit" (click)="formSubmit()">{{formLabel.button}}</button>
+        </div>
+    </form>
+</div>
