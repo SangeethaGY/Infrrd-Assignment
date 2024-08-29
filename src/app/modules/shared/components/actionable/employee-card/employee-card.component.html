@@ -1,6 +1,6 @@
 <div class="container-fluid employee-card-wrapper">
   <div class="row g-3" *ngIf="employeeDetails().length!==0;else noEmployeeRecord ">
-    <div class="col-sm-6" *ngFor="let employee of employeeDetails()">
+    <div class="col-sm-4" *ngFor="let employee of employeeDetails()">
       <div class="card shadow p-2 mb-4 bg-body rounded">
         <div class="card-body">
           <div class="col">
@@ -8,7 +8,7 @@
               <div class="col-3">
                   <img [src]="employee.avatar" class="rounded-circle employee-avatar">
               </div>
-              <div class="col-8">
+              <div class="col-8 ps-4">
                 <p>{{employee.name}}</p>
                 <p>{{employee.designation}}</p>
               </div>
