@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA, Component, Signal, computed } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, Signal} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../../../service/form.service';
 import { AppConstants } from 'src/app/configs/constants';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmployeeService } from '../../../service/employee.service';
+import { FormConditions } from '../../../models/form-conditions.model';
+import { EmployeeDetails } from '../../../models/employee-details.model';
 
 @Component({
   selector: 'app-employee-form',
@@ -22,7 +24,13 @@ export class EmployeeFormComponent {
   errorMessage = AppConstants.FORM_ERROR;
   formCondition!:Signal<any>;
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  phoneNumberPattern = '^[0-9]{10}$'; 
+  phoneNumberPattern = '^[0-9]{10}$';
+  formConditionObj : FormConditions = {
+    "showForm" : false,
+    "isFilter" : false,
+    "isSearch" : false,
+    "isAdd":false
+  }
   constructor(
     private fb:FormBuilder,
     private formService:FormService,
@@ -36,13 +44,9 @@ export class EmployeeFormComponent {
       emailId:[''],
       contactNo:[''],
       designation:[''],
-      avatarImage:['']
+      avatar:['']
     })
     this.formCondition = this.formService.formConditions;
-    computed(() => {
-      const formConditions = this.formService.formConditions();
-      this.updateFormValidators();
-    })
   }
 
   ngDoCheck(){
@@ -75,42 +79,27 @@ export class EmployeeFormComponent {
   public formSubmit() {
     if(this.formCondition().isFilter) {
       const designation = this.form.controls['designation'].value;
-      this.formService.formConditions.set({
-        "showForm" : false,
-        "isFilter" : false,
-        "isSearch" : false,
-        "isAdd":false
-      });
+      this.formService.formConditions.set(this.formConditionObj);
       this.employeeService.filterEmployee(designation);
     } else if (this.formCondition().isSearch) {
       const name = this.form.controls['name'].value;
-      this.formService.formConditions.set({
-        "showForm" : false,
-        "isFilter" : false,
-        "isSearch" : false,
-        "isAdd":false
-      });
+      this.formService.formConditions.set(this.formConditionObj);
       this.employeeService.searchEmployee(name);
     } else if (this.formCondition().isAdd) {
-      this.formService.formConditions.set({
-        "showForm" : false,
-        "isFilter" : false,
-        "isSearch" : false,
-        "isAdd":false
-      });
+      this.formService.formConditions.set(this.formConditionObj);
       const employeeObject = this.createEmployeeObject(this.form.value);
       this.employeeService.addEmployee([employeeObject]);
     }
   }
 
-  public createEmployeeObject(formValue:any) {
+  public createEmployeeObject(formValue:EmployeeDetails) {
     const employeeObject = {
       "name":formValue.name,
       "companyName":formValue.companyName,
       "emailId":formValue.emailId,
       "contactNo":formValue.contactNo,
       "designation":formValue.designation,
-      "avatar":formValue.avatarImage
+      "avatar":formValue.avatar
     }
     return employeeObject;
   }

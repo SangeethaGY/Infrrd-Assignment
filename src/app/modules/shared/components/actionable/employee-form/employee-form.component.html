@@ -45,13 +45,13 @@
         </div>
         <div class="radio-avater-wrapper mb-3" *ngIf="formCondition().isAdd"> 
             <div class="form-check" *ngFor="let avatar of avatarList">
-                <input class="form-check-input" type="radio" [value] = "avatar.value" formControlName="avatarImage">
+                <input class="form-check-input" type="radio" [value] = "avatar.value" formControlName="avatar">
                 <label class="form-check-label">
                         <img [src]="avatar.value" class="rounded-circle radio-avatar">
                 </label>
             </div>
-            <div *ngIf="form.get('avatarImage')?.invalid && form.get('avatarImage')?.touched" class="invalid-feedback">
-                <div *ngIf="form.get('avatarImage')?.hasError('required')">{{errorMessage.avatar}}</div>
+            <div *ngIf="form.get('avatar')?.invalid && form.get('avatar')?.touched" class="invalid-feedback">
+                <div *ngIf="form.get('avatar')?.hasError('required')">{{errorMessage.avatar}}</div>
             </div>
         </div>
 

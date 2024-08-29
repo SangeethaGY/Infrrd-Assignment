@@ -1,5 +1,5 @@
 <div class="container-fluid pe-0 row">
-    <div class="col-4 mt-2 "  *ngIf="formConditions().showForm">
+    <div class="col-4 mt-2"  *ngIf="formConditions().showForm">
         <app-employee-form></app-employee-form>
     </div>
     <div class="col-8" [ngClass]="{'col-8':formConditions().showForm,'col-12':!formConditions().showForm}">

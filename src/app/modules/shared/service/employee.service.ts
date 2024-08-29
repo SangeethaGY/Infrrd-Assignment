@@ -1,14 +1,5 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
-
-// Define the type for an employee
-interface Employee {
-  name: string;
-  companyName: string;
-  emailId: string;
-  contactNo: string;
-  designation: string;
-  avatar: string;
-}
+import { EmployeeDetails } from '../models/employee-details.model';
 
 const data =     [
   {
@@ -49,16 +40,12 @@ const data =     [
   providedIn: 'root'
 })
 export class EmployeeService {
-  public  empData: WritableSignal<any> = signal(
-    data
-  );
+  public  empData: WritableSignal<EmployeeDetails[]> = signal(data);
 
   public showForm:WritableSignal<boolean> = signal(false);
-  public employeeDataLocal:any = data;
+  public employeeDataLocal:EmployeeDetails[] = data;
 
-  constructor() { 
-    // this.empData.set(employeeData)
-  }
+  constructor() {}
 
   public fetchEmployeeDetails(){
     this.empData.set(data)
@@ -69,7 +56,7 @@ export class EmployeeService {
   public filterEmployee(designation:string){
     const empData = this.empData()
     this.employeeDataLocal = JSON.parse(JSON.stringify(empData))
-    const filteredList = empData.filter((val:any)=>{
+    const filteredList = empData.filter((val:EmployeeDetails|any)=>{
       if(val.designation === designation) return val;
     })
     this.empData.set(filteredList);
@@ -79,7 +66,7 @@ export class EmployeeService {
   public searchEmployee(name:string) {
     const empData = this.empData()
     this.employeeDataLocal = JSON.parse(JSON.stringify(empData));
-    const employee = empData.filter((val:any) => {
+    const employee = empData.filter((val:EmployeeDetails|any) => {
       if(val.name.toLowerCase().includes(name.toLowerCase())) {
         return val;
       }
@@ -87,7 +74,7 @@ export class EmployeeService {
     this.empData.set(employee)
   }
 
-  public addEmployee(emp:any) {
+  public addEmployee(emp:EmployeeDetails[]) {
     const empData = [...this.empData(),...emp];
     this.employeeDataLocal = JSON.parse(JSON.stringify(empData))
     this.empData.set(empData)
@@ -95,7 +82,7 @@ export class EmployeeService {
 
   public deleteEmployee(name:string) {
     const empData = this.empData();
-    const employee = empData.filter((emp:any) => emp.name.toLowerCase() !== name.toLowerCase());
+    const employee = empData.filter((emp:EmployeeDetails|any) => emp.name.toLowerCase() !== name.toLowerCase());
     this.employeeDataLocal = JSON.parse(JSON.stringify(employee))
     this.empData.set(employee)
   }
