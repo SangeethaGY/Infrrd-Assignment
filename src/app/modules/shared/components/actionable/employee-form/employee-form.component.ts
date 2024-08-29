@@ -22,7 +22,7 @@ export class EmployeeFormComponent {
   designationList = AppConstants.DESIGNATION;
   avatarList = AppConstants.AVATAR;
   errorMessage = AppConstants.FORM_ERROR;
-  formCondition!:Signal<any>;
+  formCondition!:Signal<FormConditions>;
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   phoneNumberPattern = '^[0-9]{10}$';
   formConditionObj : FormConditions = {
@@ -87,21 +87,8 @@ export class EmployeeFormComponent {
       this.employeeService.searchEmployee(name);
     } else if (this.formCondition().isAdd) {
       this.formService.formConditions.set(this.formConditionObj);
-      const employeeObject = this.createEmployeeObject(this.form.value);
-      this.employeeService.addEmployee([employeeObject]);
+      this.employeeService.addEmployee([this.form.value]);
     }
-  }
-
-  public createEmployeeObject(formValue:EmployeeDetails) {
-    const employeeObject = {
-      "name":formValue.name,
-      "companyName":formValue.companyName,
-      "emailId":formValue.emailId,
-      "contactNo":formValue.contactNo,
-      "designation":formValue.designation,
-      "avatar":formValue.avatar
-    }
-    return employeeObject;
   }
 
 }

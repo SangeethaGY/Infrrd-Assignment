@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { EmployeeService } from '../../../service/employee.service';
 import { AppConstants } from 'src/app/configs/constants';
+import { EmployeeDetails } from '../../../models/employee-details.model';
 @Component({
   selector: 'app-employee-card',
   standalone:true,
@@ -10,7 +11,9 @@ import { AppConstants } from 'src/app/configs/constants';
   styleUrls: ['./employee-card.component.scss']
 })
 export class EmployeeCardComponent {
-  @Input() employeeDetails : any = [];
+  // @Input() employeeDetails : EmployeeDetails[] = [];
+  @Input() employeeDetails: () => EmployeeDetails[] = signal([]);
+
   public employeeToDelete : string = '';
   public messages : any = AppConstants.EMPLOYEE_CARD_MESSAGES;
 
@@ -18,7 +21,6 @@ export class EmployeeCardComponent {
 
   public openDeleteModel(name:string) {
     this.employeeToDelete = name;
-    console.log("To delete: ",this.employeeToDelete)
   }
 
   public confirmEmployeeDelete(){
