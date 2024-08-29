@@ -49,12 +49,13 @@ export class EmployeeService {
 
   public fetchEmployeeDetails(){
     this.empData.set(data)
+    this.employeeDataLocal = JSON.parse(JSON.stringify(this.empData()))
     return this.empData;
     
   }
 
   public filterEmployee(designation:string){
-    const empData = this.empData()
+    const empData = this.empData();
     this.employeeDataLocal = JSON.parse(JSON.stringify(empData))
     const filteredList = empData.filter((val:EmployeeDetails|any)=>{
       if(val.designation === designation) return val;
@@ -81,7 +82,7 @@ export class EmployeeService {
   }
 
   public deleteEmployee(name:string) {
-    const empData = this.empData();
+    const empData = this.employeeDataLocal ? this.employeeDataLocal : this.empData();
     const employee = empData.filter((emp:EmployeeDetails|any) => emp.name.toLowerCase() !== name.toLowerCase());
     this.employeeDataLocal = JSON.parse(JSON.stringify(employee))
     this.empData.set(employee)
