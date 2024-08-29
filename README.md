@@ -2,6 +2,17 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.14.
 
+This project is employee managment portal , it perfoms below functionality 
+1. Add new employees
+2. Edit data for existing employees
+3. View employee details
+4. Delete employee - Ask for confirmation before deleting the employee
+5. Search for employees (By Name)
+6. Filter employees (By Designation)
+
+Site is compatible in all screens. 
+
+Test cases is covering above 85%
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
